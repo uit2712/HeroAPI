@@ -10,7 +10,7 @@ namespace HeroAPI.ViewModels
             if (hero != null)
             {
                 HeroId = hero.HeroId;
-                HeroPower = new List<string>();
+                HeroPower = new List<PowerInfo>();
                 if (hero != null)
                 {
                     HeroName = hero.HeroName;
@@ -19,7 +19,7 @@ namespace HeroAPI.ViewModels
                         foreach (PowerDetail powerDetail in hero.PowerDetails)
                         {
                             if (powerDetail.Power != null)
-                                HeroPower.Add(powerDetail.Power.PowerName);
+                                HeroPower.Add(new PowerInfo(powerDetail.Power));
                         }
                     }
                 }
@@ -28,6 +28,6 @@ namespace HeroAPI.ViewModels
 
         public int HeroId { get; set; }
         public string HeroName { get; set; }
-        public List<string> HeroPower { get; set; }
+        public List<PowerInfo> HeroPower { get; set; }
     }
 }
