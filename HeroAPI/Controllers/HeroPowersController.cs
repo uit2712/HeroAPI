@@ -67,8 +67,23 @@ namespace HeroAPI.Controllers
         }
 
         // PUT: api/HeroPowers/5
-        public void Put(int id, [FromBody]string value)
+        public async Task<IHttpActionResult> Put(int id, [FromBody]PowerCreate power)
         {
+            if (power == null || string.IsNullOrEmpty(power.PowerName) || string.IsNullOrWhiteSpace(power.PowerName))
+                return BadRequest(string.Format(GeneralMessages.InvalidData, ModelNames.Power));
+
+            using (HeroDbContext context = new HeroDbContext())
+            {
+                Power findPower = await context.Powers.FirstOrDefaultAsync(p => p.PowerId == id);
+
+                if (findPower == null)
+                    return BadRequest(string.Format(GeneralMessages.NotFound, ModelNames.Power, _powerMessages.GetString("PowerId"), id));
+
+                findPower.PowerName = power.PowerName;
+                await context.SaveChangesAsync();
+
+                return Ok(new CMessage(string.Format(GeneralMessages.UpdateSuccess, ModelNames.Power, _powerMessages.GetString("PowerId"), id)));
+            }
         }
 
         // DELETE: api/HeroPowers/5
