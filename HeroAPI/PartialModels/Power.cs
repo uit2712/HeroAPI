@@ -1,4 +1,5 @@
 ﻿using HeroAPI.Enums;
+using HeroAPI.ViewModels;
 
 namespace HeroAPI.Models
 {
@@ -9,6 +10,12 @@ namespace HeroAPI.Models
         public Power(string powerName)
         {
             PowerName = powerName;
+        }
+
+        public Power(PowerCreate power)
+        {
+            if (power != null)
+                PowerName = power.PowerName;
         }
     }
 }
