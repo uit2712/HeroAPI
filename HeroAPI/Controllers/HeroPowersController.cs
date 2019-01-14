@@ -52,8 +52,18 @@ namespace HeroAPI.Controllers
         }
 
         // POST: api/HeroPowers
-        public void Post([FromBody]string value)
+        public async Task<IHttpActionResult> Post([FromBody]PowerCreate power)
         {
+            if (power == null || string.IsNullOrEmpty(power.PowerName) || string.IsNullOrWhiteSpace(power.PowerName))
+                return BadRequest(string.Format(GeneralMessages.InvalidData, ModelNames.Power));
+
+            using (HeroDbContext context = new HeroDbContext())
+            {
+                context.Powers.Add(new Power(power));
+                await context.SaveChangesAsync();
+
+                return Ok(new CMessage(string.Format(GeneralMessages.CreateSuccess, ModelNames.Power)));
+            }
         }
 
         // PUT: api/HeroPowers/5
