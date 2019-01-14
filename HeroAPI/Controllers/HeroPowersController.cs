@@ -87,8 +87,20 @@ namespace HeroAPI.Controllers
         }
 
         // DELETE: api/HeroPowers/5
-        public void Delete(int id)
+        public async Task<IHttpActionResult> Delete(int id)
         {
+            using (HeroDbContext context = new HeroDbContext())
+            {
+                Power findPower = await context.Powers.FirstOrDefaultAsync(p => p.PowerId == id);
+
+                if (findPower == null)
+                    return BadRequest(string.Format(GeneralMessages.NotFound, ModelNames.Power, _powerMessages.GetString("PowerId"), id));
+
+                context.Powers.Remove(findPower);
+                await context.SaveChangesAsync();
+
+                return Ok(new CMessage(string.Format(GeneralMessages.DeleteSuccess, ModelNames.Power, _powerMessages.GetString("PowerId"), id)));
+            }
         }
     }
 }
