@@ -241,6 +241,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HeroCreate.cs" />
     <Compile Include="ViewModels\HeroInfo.cs" />
+    <Compile Include="ViewModels\HeroUpdate.cs" />
     <Compile Include="ViewModels\PowerCreate.cs" />
     <Compile Include="ViewModels\PowerInfo.cs" />
   </ItemGroup>
