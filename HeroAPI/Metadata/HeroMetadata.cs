@@ -20,7 +20,5 @@ namespace HeroAPI.Metadata
         [Display(Name = "HeroName", ResourceType = typeof(HeroMessages))]
         [Required(ErrorMessageResourceName = "HeroNameRequired", ErrorMessageResourceType = typeof(HeroMessages))]
         public string HeroName { get; set; }
-
-        public virtual ICollection<PowerDetail> PowerDetails { get; set; }
     }
 }

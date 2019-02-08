@@ -10,24 +10,11 @@ namespace HeroAPI.ViewModels
             if (hero != null)
             {
                 HeroId = hero.HeroId;
-                HeroPowers = new List<int>();
-                if (hero != null)
-                {
-                    HeroName = hero.HeroName;
-                    if (hero.PowerDetails != null)
-                    {
-                        foreach (PowerDetail powerDetail in hero.PowerDetails)
-                        {
-                            if (powerDetail.Power != null)
-                                HeroPowers.Add(powerDetail.Power.PowerId);
-                        }
-                    }
-                }
+                HeroName = hero.HeroName;
             }
         }
 
         public int HeroId { get; set; }
         public string HeroName { get; set; }
-        public List<int> HeroPowers { get; set; }
     }
 }

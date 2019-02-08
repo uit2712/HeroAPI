@@ -26,10 +26,7 @@ namespace HeroAPI.Controllers
                 var heroes = await context.Heroes.Where(h => true).ToListAsync();
 
                 foreach(Hero hero in heroes)
-                {
-                    await context.Entry(hero).Collection(h => h.PowerDetails).LoadAsync();
                     result.Add(new HeroInfo(hero));
-                }
             }
 
             return Json(result);
@@ -67,7 +64,7 @@ namespace HeroAPI.Controllers
         }
 
         // PUT: api/Heroes/5
-        public async Task<IHttpActionResult> Put(int id, [FromBody]HeroUpdate hero)
+        public async Task<IHttpActionResult> Put(int id, [FromBody]HeroInfo hero)
         {
             if (hero == null || string.IsNullOrEmpty(hero.HeroName) || string.IsNullOrWhiteSpace(hero.HeroName))
                 return BadRequest(string.Format(GeneralMessages.InvalidData, ModelNames.Hero));
@@ -80,20 +77,6 @@ namespace HeroAPI.Controllers
                     return BadRequest(string.Format(GeneralMessages.NotFound, ModelNames.Hero, _heroMessages.GetString("HeroId"), id));
 
                 findHero.HeroName = hero.HeroName;
-                // update hero powers
-                var findHeroPowers = context.PowerDetails.Where(pd => pd.HeroId == hero.HeroId);
-                if (findHeroPowers != null)
-                {
-                    // remove old hero powers
-                    context.PowerDetails.RemoveRange(findHeroPowers);
-
-                    // add new hero powers
-                    foreach (int powerId in hero.HeroPowers)
-                    {
-                        PowerDetail powerDetail = new PowerDetail(hero.HeroId, powerId);
-                        context.PowerDetails.Add(powerDetail);
-                    }
-                }
 
                 await context.SaveChangesAsync();
                 

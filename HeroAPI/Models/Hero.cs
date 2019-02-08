@@ -19,6 +19,5 @@ namespace HeroAPI.Models
                 else _heroName = value;
             }
         }
-        public virtual ICollection<PowerDetail> PowerDetails { get; set; }
     }
 }
